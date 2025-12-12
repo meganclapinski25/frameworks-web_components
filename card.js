@@ -6,7 +6,6 @@ class AthleteCard extends HTMLElement {
       const template = document.createElement("template");
       template.innerHTML = `
         <style>
-          /* Import the framework INSIDE the shadow root */
           @import url("./acsd.css");
   
           :host {

@@ -1,9 +1,5 @@
 @layer tokens, base, components, utilities, overrides;
 
-/* =========================================
-   TOKENS — design tokens only (no elements)
-   Universal design system tokens
-   ========================================= */
 @layer tokens {
   :root {
     /* Typography */
@@ -22,14 +18,12 @@
     --font-weight-body: 400;
     --font-weight-strong: 650;
 
-    /* Spacing */
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 1rem;
     --space-lg: 1.5rem;
     --space-xl: 2.25rem;
 
-    /* Radius + borders */
     --radius-sm: 0.25rem;
     --radius-md: 0.55rem;
     --radius-lg: 0.9rem;
@@ -37,15 +31,12 @@
 
     --border-width: 1px;
 
-    /* Layout */
     --content-max-width: 72rem;
     --content-reading-width: 70ch;
 
-    /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.08);
     --shadow-md: 0 8px 22px rgba(0,0,0,0.12);
 
-    /* Transitions */
     --transition-fast: 150ms ease-out;
     --transition-med: 220ms ease-out;
 
@@ -58,29 +49,22 @@
     
     --color-border: #c6d2c7;
     
-    /* Primary color */
     --color-primary: #2e6f55;
     --color-primary-soft: #d9ece2;
     
-    
-    /* Secondary color accent */
     --color-secondary: #3b6fdc;
     --color-secondary-soft: #e2ebfb;
     
-    /* Semantic */
     --color-success: #2f7a5c;
     --color-warning: #b0892f;
     --color-danger: #b84747;
     
-    /* Focus */
     --color-focus-ring: #3b6fdc;
     
-    /* Links */
     --color-link: var(--color-secondary);
     --color-link-hover: #2f5fc2;
     --color-link-visited: color-mix(in srgb, var(--color-secondary) 70%, var(--color-fg) 30%);
 
-    /* Form */
     --input-bg: var(--color-surface);
     --input-fg: var(--color-fg);
     --input-border: var(--color-border);
@@ -99,11 +83,9 @@
   
     --color-border: #2b3f35;
   
-    /* Primary */
     --color-primary: #4bb38a;
     --color-primary-soft: #1b3a2b;
   
-    /* Secondary */
     --color-secondary: #7faeff;
     --color-secondary-soft: #1d2f4d;
   
@@ -119,12 +101,7 @@
   }
 }
 
-/* =========================================
-   BASE — element selectors only (classless)
-   Styles semantic HTML “out of the box”
-   ========================================= */
 @layer base {
-  /* Reset-ish */
   *,
   *::before,
   *::after { box-sizing: border-box; }
@@ -196,7 +173,6 @@
     margin: var(--space-lg) 0;
   }
 
-  /* Quotes */
   blockquote {
     margin: var(--space-md) 0;
     padding: var(--space-md) var(--space-md);
@@ -207,7 +183,6 @@
   }
   q { font-style: italic; }
 
-  /* Code */
   code {
     font-family: var(--font-family-mono);
     font-size: 0.95em;
@@ -233,7 +208,6 @@
     padding: 0;
   }
 
-  /* Lists */
   ul, ol {
     margin: var(--space-md) 0;
     padding-left: calc(var(--space-lg) + var(--space-sm));
@@ -245,9 +219,8 @@
   /* Definition lists */
   dl { margin: var(--space-md) 0; }
   dt { font-weight: var(--font-weight-strong); }
-  dd { margin: 0 0 var(--space-sm) var(--space-md); color: var(--color-fg-muted); }
+  dd {     margin: 0 0 var(--space-sm) var(--space-md); color: var(--color-fg-muted); }
 
-  /* Links — all required states, accessible */
   a:link {
     color: var(--color-link);
     text-decoration: underline;
@@ -273,7 +246,6 @@
     border-radius: var(--radius-sm);
   }
 
-  /* Media */
   figure { margin: var(--space-md) 0; }
   img {
     max-width: 100%;
@@ -289,7 +261,6 @@
     color: var(--color-fg-muted);
   }
 
-  /* Tables */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -317,7 +288,6 @@
     background: color-mix(in srgb, var(--color-surface-muted) 70%, var(--color-surface) 30%);
   }
 
-  /* Forms (enhancement: custom cohesive styling) */
   form { margin: var(--space-lg) 0; }
   fieldset {
     border: var(--border-width) solid var(--color-border);
@@ -365,7 +335,6 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus-ring) 20%, transparent);
   }
 
-  /* Buttons (element default) */
   button {
     display: inline-flex;
     align-items: center;
@@ -404,12 +373,10 @@
     box-shadow: none;
   }
 
-  /* Motion respect */
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; scroll-behavior: auto !important; }
   }
 
-  /* Print (optional polish) */
   @media print {
     body { background: white; color: black; }
     header, footer { border: none; background: transparent; }
@@ -420,13 +387,7 @@
   }
 }
 
-/* =========================================
-   COMPONENTS — reusable classes
-   Required: Button, Card, Alert, Badge
-   Naming: simple BEM-ish (block__part, block--variant)
-   ========================================= */
 @layer components {
-  /* BUTTON */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -494,7 +455,6 @@
     box-shadow: none;
   }
 
-  /* CARD */
   .card {
     background: var(--color-surface);
     border: var(--card-border-style);
@@ -529,7 +489,6 @@
     box-shadow: var(--shadow-md);
   }
 
-  /* ALERT */
   .alert {
     border-radius: var(--radius-md);
     border: var(--border-width) solid var(--color-border);
@@ -563,7 +522,6 @@
     background: color-mix(in srgb, var(--color-danger) 12%, var(--color-surface) 88%);
   }
 
-  /* BADGE / CHIP */
   .badge {
     display: inline-block;
     padding: 0.15rem 0.55rem;
@@ -595,12 +553,7 @@
   }
 }
 
-/* =========================================
-   UTILITIES — small, token-driven helpers
-   At least 6 across 3+ categories
-   ========================================= */
 @layer utilities {
-  /* Layout */
   .container {
     max-width: var(--content-max-width);
     margin-inline: auto;
@@ -613,11 +566,9 @@
     gap: var(--space-lg);
   }
 
-  /* Display */
   .flex { display: flex; }
   .grid { display: grid; }
 
-  /* Grid preset */
   .grid-2 {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-md);
@@ -628,23 +579,16 @@
     .grid-2 { grid-template-columns: 1fr; }
   }
 
-  /* Spacing */
   .mt-sm { margin-top: var(--space-sm); }
   .mt-md { margin-top: var(--space-md); }
   .mb-md { margin-bottom: var(--space-md); }
   .p-md { padding: var(--space-md); }
 
-  /* Text */
   .text-center { text-align: center; }
   .text-muted { color: var(--color-fg-muted); }
 
-  /* Sizing */
   .max-card { width: 100%; max-width: 40rem; }
 }
 
-/* =========================================
-   OVERRIDES — kept empty for integrators
-   ========================================= */
 @layer overrides {
-  /* Add project-specific overrides after importing this file */
 }

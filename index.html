@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Athlete Dashboard</title>
 
-    <!-- Framework CSS -->
     <link rel="stylesheet" href="./acsd.css" />
     <style>
-        /* Page-only polish */
         .slogan {
           margin: var(--space-lg) 0 var(--space-sm);
           font-size: clamp(1.6rem, 2.5vw, 2.1rem);
           font-weight: 800;
           letter-spacing: 0.2px;
           text-align: center;
-          padding-left: 0; /* override base left padding for headings */
+          padding-left: 0;
         }
   
         .slogan-sub {
@@ -26,13 +24,11 @@
           padding-left: 0;
         }
   
-        /* gap between the two cards */
         .dashboard-grid {
           gap: var(--space-lg);
           align-items: start;
         }
   
-        /* Pie chart sizing */
         .pie-wrap {
           display: grid;
           place-items: center;
@@ -64,29 +60,26 @@
         Your weekly snapshot of academics + athletics—progress bars on the left, weekly breakdown on the right.
       </p>
 
-      <ath-toggle id="darkModeToggle" mode="theme" storage-key="theme" label="Dark Mode"></ath-toggle>
+      <ath-card>
+        <span slot="header">Theme Settings</span>
+        <ath-toggle id="darkModeToggle" mode="theme" storage-key="theme" label="Dark Mode"></ath-toggle>
+      </ath-card>
 
     </header>
 
     <main class="container">
       <section class="grid grid-2 dashboard-grid">
-        <!-- Card 1: Progress Tracker -->
-        <section class="card card--elevated">
-          <div class="card__header">Weekly Progress Tracker</div>
+        <ath-card>
+          <span slot="header">Weekly Progress Tracker</span>
+          <ath-progress-tracker
+            homework-completed="0" homework-total="0"
+            practices-completed="0" practices-total="0"
+            games-completed="0" games-total="0"
+            lifts-completed="0" lifts-total="0"
+          ></ath-progress-tracker>
+          <span slot="footer">Update totals and completions as the week goes.</span>
+        </ath-card>
 
-          <div class="card__body">
-            <ath-progress-tracker
-              homework-completed="0" homework-total="0"
-              practices-completed="0" practices-total="0"
-              games-completed="0" games-total="0"
-              lifts-completed="0" lifts-total="0"
-            ></ath-progress-tracker>
-          </div>
-
-          <div class="card__footer">Update totals and completions as the week goes.</div>
-        </section>
-
-        <!-- Card 2: Pie Chart -->
         <section class="card card--elevated">
           <div class="card__header">This Week at a Glance</div>
 
@@ -96,11 +89,9 @@
             </p>
 
             <div class="pie-wrap" aria-label="Weekly completion pie chart">
-              <!-- SVG pie chart gets drawn here -->
               <svg class="pie" viewBox="0 0 220 220" role="img" aria-label="Weekly completed breakdown">
                 <g id="pieSlices"></g>
 
-                <!-- center label -->
                 <circle cx="110" cy="110" r="62" fill="var(--color-surface)"></circle>
                 <text id="pieCenterText" x="110" y="110" text-anchor="middle" dominant-baseline="middle"
                       style="font-weight: 800; fill: var(--color-fg); font-size: 16px;">
@@ -123,7 +114,6 @@
       <p class="text-muted">ACS Web Components Final</p>
     </footer>
 
-    <!-- Load components -->
     <script type="module" src="./toggle.js"></script>
     <script type="module" src="./card.js"></script>
     <script type="module" src="./progress-tracker.js"></script>
@@ -139,7 +129,6 @@
         lifts: "Lifts",
       };
 
-      // Use your token colors so it matches the theme
       const COLORS = {
         homework: "var(--color-primary)",
         practices: "var(--color-secondary)",
@@ -185,8 +174,7 @@
         const completedByKey = KEYS.map(k => ({ key: k, value: stats[k].completed }));
         const totalCompleted = completedByKey.reduce((s, d) => s + d.value, 0);
         const totalPlanned = KEYS.reduce((s, k) => s + stats[k].total, 0);
-
-        // Update center text
+  
         document.getElementById("pieCenterText").textContent = `${totalCompleted} done`;
         document.getElementById("pieCenterSub").textContent = `out of ${totalPlanned} planned`;
 
@@ -195,8 +183,7 @@
 
         slicesG.innerHTML = "";
         legend.innerHTML = "";
-
-        // Empty state
+  
         if (totalCompleted <= 0) {
           const empty = document.createElementNS("http://www.w3.org/2000/svg", "circle");
           empty.setAttribute("cx", "110");
@@ -208,8 +195,7 @@
           legend.innerHTML = `<div class="text-muted">No completed items yet — start tracking!</div>`;
           return;
         }
-
-        // Build slices
+  
         let angle = 0;
         for (const { key, value } of completedByKey) {
           if (value <= 0) continue;
@@ -233,8 +219,7 @@
           angle = end;
         }
       }
-
-      // Render initially and whenever tracker changes
+  
       renderPie();
       tracker.addEventListener("progress-changed", renderPie);
     </script>

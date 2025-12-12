@@ -1,5 +1,3 @@
-// progress-tracker.js
-
 class AthleteProgressTracker extends HTMLElement {
     constructor() {
       super();
@@ -8,14 +6,12 @@ class AthleteProgressTracker extends HTMLElement {
       const template = document.createElement("template");
       template.innerHTML = `
         <style>
-          /* IMPORTANT: this should match your actual framework filename */
           @import url("./acsd.css");
   
           :host {
             display: block;
           }
   
-          /* Small component-only tweaks (your framework does most of the work) */
           .tracker {
             display: flex;
             flex-direction: column;
@@ -80,14 +76,7 @@ class AthleteProgressTracker extends HTMLElement {
           }
         </style>
   
-        <section class="card card--elevated" aria-label="Student athlete weekly progress">
-          <div class="card__header">
-            Weekly Progress
-          </div>
-  
-          <div class="card__body">
-            <div class="tracker">
-              <!-- HOMEWORK -->
+        <div class="tracker" aria-label="Student athlete weekly progress">
               <div class="category" data-key="homework">
                 <div class="category-header">
                   <span class="category-name">Homework</span>
@@ -107,7 +96,6 @@ class AthleteProgressTracker extends HTMLElement {
                 </div>
               </div>
   
-              <!-- PRACTICES -->
               <div class="category" data-key="practices">
                 <div class="category-header">
                   <span class="category-name">Practices</span>
@@ -127,7 +115,6 @@ class AthleteProgressTracker extends HTMLElement {
                 </div>
               </div>
   
-              <!-- GAMES -->
               <div class="category" data-key="games">
                 <div class="category-header">
                   <span class="category-name">Games</span>
@@ -147,7 +134,6 @@ class AthleteProgressTracker extends HTMLElement {
                 </div>
               </div>
   
-              <!-- LIFTS -->
               <div class="category" data-key="lifts">
                 <div class="category-header">
                   <span class="category-name">Lifts</span>
@@ -170,9 +156,7 @@ class AthleteProgressTracker extends HTMLElement {
               <div class="footer-row">
                 <button class="btn btn--danger" type="button" data-action="reset-all">Finish Week (Reset All)</button>
               </div>
-            </div>
-          </div>
-        </section>
+        </div>
       `;
   
       this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -184,7 +168,6 @@ class AthleteProgressTracker extends HTMLElement {
         lifts: { completed: 0, total: 0 },
       };
   
-      // ✅ For the animated percent ticker
       this._currentPercent = { homework: 0, practices: 0, games: 0, lifts: 0 };
       this._rafIds = { homework: 0, practices: 0, games: 0, lifts: 0 };
   
@@ -245,14 +228,12 @@ class AthleteProgressTracker extends HTMLElement {
       if (s.total < s.completed) s.total = s.completed;
     }
   
-    /* ✅ This makes the pie chart work (external code can read attributes) */
     _syncAttributes(key) {
       const { completed, total } = this._stats[key];
       this.setAttribute(`${key}-completed`, String(completed));
       this.setAttribute(`${key}-total`, String(total));
     }
   
-    /* ✅ Animation helpers (requestAnimationFrame) */
     _prefersReducedMotion() {
       return (
         window.matchMedia &&
@@ -290,7 +271,6 @@ class AthleteProgressTracker extends HTMLElement {
   
       const tick = (now) => {
         const t = Math.min(1, (now - start) / duration);
-        // easeOutCubic
         const eased = 1 - Math.pow(1 - t, 3);
         const value = startPercent + (endPercent - startPercent) * eased;
   
@@ -311,7 +291,6 @@ class AthleteProgressTracker extends HTMLElement {
   
       const action = button.getAttribute("data-action");
   
-      // Reset all
       if (action === "reset-all") {
         ["homework", "practices", "games", "lifts"].forEach((k) => {
           this._stats[k].completed = 0;
@@ -388,10 +367,8 @@ class AthleteProgressTracker extends HTMLElement {
       const percent =
         total > 0 ? Math.max(0, Math.min(100, (completed / total) * 100)) : 0;
   
-      // Bar visual (CSS transition)
       if (fillEl) fillEl.style.width = `${percent}%`;
   
-      // ✅ Animated percent ticker for "smart" rubric requirement
       this._animateSummary(key, completed, total, percent);
     }
   }

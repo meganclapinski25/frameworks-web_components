@@ -1,5 +1,3 @@
-// toggle.js
-
 class AthleteToggle extends HTMLElement {
     constructor() {
       super();
@@ -71,7 +69,6 @@ class AthleteToggle extends HTMLElement {
             transform: translateX(20px);
           }
   
-          /* Nice disabled state if you add disabled later */
           :host([disabled]) {
             opacity: 0.6;
             cursor: not-allowed;
@@ -90,8 +87,6 @@ class AthleteToggle extends HTMLElement {
     }
   
     static get observedAttributes() {
-      // ✅ added "mode" so this component can optionally control theme:
-      // <ath-toggle mode="theme" storage-key="theme"></ath-toggle>
       return ["label", "checked", "disabled", "mode", "storage-key"];
     }
   
@@ -101,7 +96,6 @@ class AthleteToggle extends HTMLElement {
       if (name === "checked") {
         this._checked = this.hasAttribute("checked");
         this._render();
-        // ✅ if this is a theme toggle, apply theme whenever checked changes
         this._applyThemeIfNeeded();
       }
   
@@ -114,7 +108,6 @@ class AthleteToggle extends HTMLElement {
     connectedCallback() {
       this._updateLabel();
   
-      // ✅ If this toggle is being used for dark mode, initialize from saved preference
       this._initThemeIfNeeded();
   
       this._render();
@@ -164,10 +157,8 @@ class AthleteToggle extends HTMLElement {
     }
   
     _setTheme(isDark) {
-      // Put the class on <html> so all CSS variables update
       document.documentElement.classList.toggle("theme-dark", isDark);
   
-      // Save preference
       try {
         localStorage.setItem(this._storageKey(), isDark ? "dark" : "light");
       } catch {
@@ -178,7 +169,6 @@ class AthleteToggle extends HTMLElement {
     _initThemeIfNeeded() {
       if (!this._isThemeMode()) return;
   
-      // Pull saved preference
       let saved = null;
       try {
         saved = localStorage.getItem(this._storageKey());
@@ -188,7 +178,6 @@ class AthleteToggle extends HTMLElement {
   
       const startDark = saved === "dark";
   
-      // Sync component state to saved preference (and apply theme)
       if (startDark) this.setAttribute("checked", "");
       else this.removeAttribute("checked");
   
@@ -213,7 +202,6 @@ class AthleteToggle extends HTMLElement {
   
       this._render();
   
-      // ✅ if theme mode, apply theme + persist
       this._applyThemeIfNeeded();
   
       this.dispatchEvent(
