@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Athlete Progress Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Your global styles / framework -->
+  <link rel="stylesheet" href="acsd.css" />
+
+  <!-- Web Components -->
+  <script src="card.js" defer></script>
+  <script src="toggle.js" defer></script>
+  <script src="progress-tracker.js" defer></script>
+</head>
+<body>
+    <main class="page">
+      <h1>Student Athlete Progress Tracker</h1>
+  
+      <div class="card-row">
+  
+        <!-- LEFT CARD -->
+        <ath-card>
+          <h2 slot="header">This Week Overview</h2>
+  
+          <p>
+            Track your weekly work across homework, practices, games, and lifts.
+          </p>
+  
+          <ath-progress-tracker
+            homework-completed="3"
+            homework-total="4"
+            practices-completed="4"
+            practices-total="5"
+            games-completed="1"
+            games-total="1"
+            lifts-completed="2"
+            lifts-total="3">
+          </ath-progress-tracker>
+  
+          <div slot="footer">
+            <ath-toggle label="Eligible for competition?" checked></ath-toggle>
+          </div>
+        </ath-card>
+  
+        <!-- RIGHT CARD -->
+        <ath-card>
+          <h2 slot="header">Weekly Time Breakdown</h2>
+  
+          <div class="pie"></div>
+  
+          <div class="pie-legend">
+            <span><i style="background: var(--color-accent)"></i> Practices</span>
+            <span><i style="background: var(--color-success)"></i> Lifts</span>
+            <span><i style="background: var(--color-warning)"></i> Games</span>
+            <span><i style="background: var(--color-border)"></i> Homework</span>
+          </div>
+        </ath-card>
+  
+      </div>
+    </main>
+  </body>
+</html>
