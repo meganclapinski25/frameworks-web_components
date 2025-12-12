@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Athlete Dashboard</title>
+
+    <!-- Framework CSS -->
+    <link rel="stylesheet" href="./acsd.css" />
+    <style>
+        /* Page-only polish */
+        .slogan {
+          margin: var(--space-lg) 0 var(--space-sm);
+          font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+          font-weight: 800;
+          letter-spacing: 0.2px;
+          text-align: center;
+          padding-left: 0; /* override base left padding for headings */
+        }
+  
+        .slogan-sub {
+          text-align: center;
+          color: var(--color-fg-muted);
+          max-width: 60ch;
+          margin: 0 auto var(--space-lg);
+          padding-left: 0;
+        }
+  
+        /* gap between the two cards */
+        .dashboard-grid {
+          gap: var(--space-lg);
+          align-items: start;
+        }
+  
+        /* Pie chart sizing */
+        .pie-wrap {
+          display: grid;
+          place-items: center;
+          padding: var(--space-md) 0;
+        }
+  
+        .pie {
+          width: 220px;
+          height: 220px;
+        }
+  
+        .legend {
+          display: grid;
+          gap: var(--space-xs);
+          margin-top: var(--space-sm);
+          color: var(--color-fg-muted);
+          font-size: var(--font-size-sm);
+        }
+  
+        .legend strong { color: var(--color-fg); }
+      </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Athlete Dashboard</h1>
+      <h2 class="slogan">Track homework. Train smarter. Show up ready.</h2>
+      <p class="slogan-sub">
+        Your weekly snapshot of academics + athletics—progress bars on the left, weekly breakdown on the right.
+      </p>
+
+      <ath-toggle id="darkModeToggle" mode="theme" storage-key="theme" label="Dark Mode"></ath-toggle>
+
+    </header>
+
+    <main class="container">
+      <section class="grid grid-2 dashboard-grid">
+        <!-- Card 1: Progress Tracker -->
+        <section class="card card--elevated">
+          <div class="card__header">Weekly Progress Tracker</div>
+
+          <div class="card__body">
+            <ath-progress-tracker
+              homework-completed="0" homework-total="0"
+              practices-completed="0" practices-total="0"
+              games-completed="0" games-total="0"
+              lifts-completed="0" lifts-total="0"
+            ></ath-progress-tracker>
+          </div>
+
+          <div class="card__footer">Update totals and completions as the week goes.</div>
+        </section>
+
+        <!-- Card 2: Pie Chart -->
+        <section class="card card--elevated">
+          <div class="card__header">This Week at a Glance</div>
+
+          <div class="card__body">
+            <p class="text-muted" style="margin:0;">
+              Pie chart shows completed items by category for the week.
+            </p>
+
+            <div class="pie-wrap" aria-label="Weekly completion pie chart">
+              <!-- SVG pie chart gets drawn here -->
+              <svg class="pie" viewBox="0 0 220 220" role="img" aria-label="Weekly completed breakdown">
+                <g id="pieSlices"></g>
+
+                <!-- center label -->
+                <circle cx="110" cy="110" r="62" fill="var(--color-surface)"></circle>
+                <text id="pieCenterText" x="110" y="110" text-anchor="middle" dominant-baseline="middle"
+                      style="font-weight: 800; fill: var(--color-fg); font-size: 16px;">
+                  0 done
+                </text>
+                <text id="pieCenterSub" x="110" y="132" text-anchor="middle" dominant-baseline="middle"
+                      style="fill: var(--color-fg-muted); font-size: 12px;">
+                  out of 0 planned
+                </text>
+              </svg>
+
+              <div class="legend" id="pieLegend"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="text-center">
+      <p class="text-muted">ACS Web Components Final</p>
+    </footer>
+
+    <!-- Load components -->
+    <script type="module" src="./toggle.js"></script>
+    <script type="module" src="./card.js"></script>
+    <script type="module" src="./progress-tracker.js"></script>
+
+    <script>
+      const tracker = document.querySelector("ath-progress-tracker");
+
+      const KEYS = ["homework", "practices", "games", "lifts"];
+      const LABELS = {
+        homework: "Homework",
+        practices: "Practices",
+        games: "Games",
+        lifts: "Lifts",
+      };
+
+      // Use your token colors so it matches the theme
+      const COLORS = {
+        homework: "var(--color-forest)",
+        practices: "var(--color-aura)",
+        games: "var(--color-warning)",
+        lifts: "var(--color-success)",
+      };
+
+      function getAttrNum(key, type) {
+        return Number(tracker.getAttribute(`${key}-${type}`) || 0) || 0;
+      }
+
+      function getStats() {
+        const stats = {};
+        for (const k of KEYS) {
+          stats[k] = {
+            completed: getAttrNum(k, "completed"),
+            total: getAttrNum(k, "total"),
+          };
+        }
+        return stats;
+      }
+
+      function polarToCartesian(cx, cy, r, angleDeg) {
+        const angleRad = (angleDeg - 90) * Math.PI / 180;
+        return { x: cx + r * Math.cos(angleRad), y: cy + r * Math.sin(angleRad) };
+      }
+
+      function arcPath(cx, cy, r, startAngle, endAngle) {
+        const start = polarToCartesian(cx, cy, r, endAngle);
+        const end = polarToCartesian(cx, cy, r, startAngle);
+        const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+        return [
+          `M ${cx} ${cy}`,
+          `L ${start.x} ${start.y}`,
+          `A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`,
+          "Z",
+        ].join(" ");
+      }
+
+      function renderPie() {
+        const stats = getStats();
+
+        const completedByKey = KEYS.map(k => ({ key: k, value: stats[k].completed }));
+        const totalCompleted = completedByKey.reduce((s, d) => s + d.value, 0);
+        const totalPlanned = KEYS.reduce((s, k) => s + stats[k].total, 0);
+
+        // Update center text
+        document.getElementById("pieCenterText").textContent = `${totalCompleted} done`;
+        document.getElementById("pieCenterSub").textContent = `out of ${totalPlanned} planned`;
+
+        const slicesG = document.getElementById("pieSlices");
+        const legend = document.getElementById("pieLegend");
+
+        slicesG.innerHTML = "";
+        legend.innerHTML = "";
+
+        // Empty state
+        if (totalCompleted <= 0) {
+          const empty = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          empty.setAttribute("cx", "110");
+          empty.setAttribute("cy", "110");
+          empty.setAttribute("r", "90");
+          empty.setAttribute("fill", "var(--color-surface-muted)");
+          slicesG.appendChild(empty);
+
+          legend.innerHTML = `<div class="text-muted">No completed items yet — start tracking!</div>`;
+          return;
+        }
+
+        // Build slices
+        let angle = 0;
+        for (const { key, value } of completedByKey) {
+          if (value <= 0) continue;
+
+          const portion = value / totalCompleted;
+          const sweep = portion * 360;
+          const start = angle;
+          const end = angle + sweep;
+
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("d", arcPath(110, 110, 90, start, end));
+          path.setAttribute("fill", COLORS[key]);
+          path.setAttribute("opacity", "0.95");
+          slicesG.appendChild(path);
+
+          const pct = Math.round(portion * 100);
+          const row = document.createElement("div");
+          row.innerHTML = `<strong>${LABELS[key]}</strong>: ${value} (${pct}%)`;
+          legend.appendChild(row);
+
+          angle = end;
+        }
+      }
+
+      // Render initially and whenever tracker changes
+      renderPie();
+      tracker.addEventListener("progress-changed", renderPie);
+    </script>
+  </body>
+</html>
