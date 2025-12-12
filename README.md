@@ -1,6 +1,6 @@
 # Web Components Design System
 
-A collection of reusable, framework-agnostic web components built with vanilla JavaScript and integrated with the ACS Design System (ACSD) framework.
+A collection of reusable, framework-agnostic web components built with vanilla JavaScript and integrated with a universal CSS design system framework.
 
 ## Overview
 
@@ -21,7 +21,7 @@ Cards are one of the most fundamental UI patterns in modern web applications. Th
 - Easy maintenance when design tokens change
 
 **How It Uses Your Framework's Styles:**
-The `ath-card` component imports the entire ACSD framework CSS inside its shadow root using `@import url("./acsd.css")`. It then leverages:
+The `ath-card` component imports the entire framework CSS inside its shadow root using `@import url("./acsd.css")`. It then leverages:
 - Framework classes: Uses `.card`, `.card__header`, `.card__body`, and `.card__footer` classes directly from the framework
 - Design tokens: Inherits all CSS custom properties (colors, spacing, borders, shadows) from the framework
 - Responsive behavior: Automatically adapts to framework-defined breakpoints and spacing scales
@@ -50,11 +50,11 @@ Progress tracking is a common pattern in dashboard and data visualization interf
 - Creates a foundation for other progress-based components
 
 **How It Uses Your Framework's Styles:**
-The progress tracker deeply integrates with the ACSD framework:
+The progress tracker deeply integrates with the framework:
 - **Framework classes**: Uses `.btn`, `.btn--sm`, `.btn--primary`, `.btn--secondary`, `.btn--danger` for all interactive controls
 - **Design tokens**: 
   - Spacing: `var(--space-xs)`, `var(--space-sm)`, `var(--space-md)` for consistent gaps and padding
-  - Colors: `var(--color-forest)` for progress bars, `var(--color-border)`, `var(--color-surface)`, `var(--color-fg-muted)` for UI elements
+  - Colors: `var(--color-primary)` for progress bars, `var(--color-border)`, `var(--color-surface)`, `var(--color-fg-muted)` for UI elements
   - Border radius: `var(--radius-md)`, `var(--radius-pill)` for rounded corners
   - Typography: `var(--font-size-sm)`, `var(--font-weight-strong)` for text styling
 - **Card integration**: Wraps itself in `.card.card--elevated` for consistent container styling
@@ -62,7 +62,7 @@ The progress tracker deeply integrates with the ACSD framework:
 - **Theme support**: All colors automatically adapt to dark mode via CSS custom properties
 
 **Future Improvements:**
-- Add configurable color per category (currently hardcoded to `--color-forest`)
+- Add configurable color per category (currently hardcoded to `--color-primary`)
 - Support for custom category labels and counts (currently fixed to 4 categories)
 - Add data persistence (localStorage) to save progress between sessions
 - Export/import functionality for progress data
@@ -90,7 +90,7 @@ Toggles are ubiquitous in modern UIs for settings, preferences, and feature flag
 The toggle component leverages the framework extensively:
 - **Design tokens**:
   - Spacing: `var(--space-xs)`, `var(--space-sm)` for internal gaps and padding
-  - Colors: `var(--color-forest)` for active state, `var(--color-border)` for track, `var(--color-surface)` for thumb
+  - Colors: `var(--color-primary)` for active state, `var(--color-border)` for track, `var(--color-surface)` for thumb
   - Border radius: `var(--radius-pill)` for fully rounded toggle track and thumb
   - Typography: `var(--font-size-sm)` for labels
   - Shadows: `var(--shadow-sm)` for thumb elevation
@@ -115,12 +115,12 @@ The toggle component leverages the framework extensively:
 
 ## Framework Integration
 
-All components are designed to work seamlessly with the ACSD (Athlete CSS Design System) framework. The integration happens through:
+All components are designed to work seamlessly with the universal CSS design system framework. The integration happens through:
 
 1. **CSS Import**: Each component imports `acsd.css` directly into its shadow root, ensuring framework styles are available even in encapsulated contexts.
 
 2. **CSS Custom Properties**: Components rely heavily on CSS variables defined in the framework:
-   - Color tokens (`--color-forest`, `--color-aura`, `--color-surface`, etc.)
+   - Color tokens (`--color-primary`, `--color-secondary`, `--color-surface`, etc.)
    - Spacing tokens (`--space-xs` through `--space-xl`)
    - Typography tokens (`--font-size-*`, `--font-weight-*`)
    - Border and radius tokens (`--radius-*`, `--border-width`)

@@ -2,7 +2,7 @@
 
 /* =========================================
    TOKENS — design tokens only (no elements)
-   Forest Garden + Aura Blue vibe
+   Universal design system tokens
    ========================================= */
 @layer tokens {
   :root {
@@ -58,14 +58,14 @@
     
     --color-border: #c6d2c7;
     
-    /* Forest core */
-    --color-forest: #2e6f55;
-    --color-forest-soft: #d9ece2;
+    /* Primary color */
+    --color-primary: #2e6f55;
+    --color-primary-soft: #d9ece2;
     
     
-    /* Aura blue accent */
-    --color-aura: #3b6fdc;
-    --color-aura-soft: #e2ebfb;
+    /* Secondary color accent */
+    --color-secondary: #3b6fdc;
+    --color-secondary-soft: #e2ebfb;
     
     /* Semantic */
     --color-success: #2f7a5c;
@@ -76,9 +76,9 @@
     --color-focus-ring: #3b6fdc;
     
     /* Links */
-    --color-link: var(--color-aura);
+    --color-link: var(--color-secondary);
     --color-link-hover: #2f5fc2;
-    --color-link-visited: color-mix(in srgb, var(--color-aura) 70%, var(--color-fg) 30%);
+    --color-link-visited: color-mix(in srgb, var(--color-secondary) 70%, var(--color-fg) 30%);
 
     /* Form */
     --input-bg: var(--color-surface);
@@ -99,13 +99,13 @@
   
     --color-border: #2b3f35;
   
-    /* Forest */
-    --color-forest: #4bb38a;
-    --color-forest-soft: #1b3a2b;
+    /* Primary */
+    --color-primary: #4bb38a;
+    --color-primary-soft: #1b3a2b;
   
-    /* Aura */
-    --color-aura: #7faeff;
-    --color-aura-soft: #1d2f4d;
+    /* Secondary */
+    --color-secondary: #7faeff;
+    --color-secondary-soft: #1d2f4d;
   
     --color-success: #58c89a;
     --color-warning: #f0c04e;
@@ -113,9 +113,9 @@
   
     --color-focus-ring: #7faeff;
   
-    --color-link: var(--color-aura);
+    --color-link: var(--color-secondary);
     --color-link-hover: #a6caff;
-    --color-link-visited: color-mix(in srgb, var(--color-aura) 70%, var(--color-fg) 30%);
+    --color-link-visited: color-mix(in srgb, var(--color-secondary) 70%, var(--color-fg) 30%);
   }
 }
 
@@ -158,7 +158,7 @@
 
   header {
     border-bottom: var(--border-width) solid var(--color-border);
-    background: color-mix(in srgb, var(--color-surface) 90%, var(--color-forest-soft) 10%);
+    background: color-mix(in srgb, var(--color-surface) 90%, var(--color-primary-soft) 10%);
   }
 
   footer {
@@ -200,8 +200,8 @@
   blockquote {
     margin: var(--space-md) 0;
     padding: var(--space-md) var(--space-md);
-    border-left: 4px solid var(--color-forest);
-    background: color-mix(in srgb, var(--color-forest-soft) 55%, var(--color-surface) 45%);
+    border-left: 4px solid var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary-soft) 55%, var(--color-surface) 45%);
     border-radius: var(--radius-md);
     color: var(--color-fg-muted);
   }
@@ -260,7 +260,7 @@
 
   a:hover {
     color: var(--color-link-hover);
-    text-decoration-color: color-mix(in srgb, var(--color-aura) 50%, transparent);
+    text-decoration-color: color-mix(in srgb, var(--color-secondary) 50%, transparent);
   }
 
   a:active {
@@ -447,14 +447,14 @@
   .btn__label { display: inline-flex; }
 
   .btn--primary {
-    background: var(--color-forest);
+    background: var(--color-primary);
     color: white;
   }
 
   .btn--secondary {
-    background: var(--color-aura-soft);
-    color: color-mix(in srgb, var(--color-aura) 85%, black 15%);
-    border-color: color-mix(in srgb, var(--color-aura) 35%, transparent);
+    background: var(--color-secondary-soft);
+    color: color-mix(in srgb, var(--color-secondary) 85%, black 15%);
+    border-color: color-mix(in srgb, var(--color-secondary) 35%, transparent);
   }
 
   .btn--danger {
@@ -544,8 +544,8 @@
   .alert__icon { display: inline-flex; }
 
   .alert--info {
-    border-color: color-mix(in srgb, var(--color-aura) 55%, var(--color-border) 45%);
-    background: color-mix(in srgb, var(--color-aura-soft) 70%, var(--color-surface) 30%);
+    border-color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-border) 45%);
+    background: color-mix(in srgb, var(--color-secondary-soft) 70%, var(--color-surface) 30%);
   }
 
   .alert--success {
@@ -577,9 +577,9 @@
   }
 
   .badge--primary {
-    background: var(--color-forest-soft);
-    color: var(--color-forest);
-    border-color: color-mix(in srgb, var(--color-forest) 25%, transparent);
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
   }
 
   .badge--success {

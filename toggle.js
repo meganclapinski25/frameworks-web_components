@@ -63,8 +63,8 @@ class AthleteToggle extends HTMLElement {
           }
   
           .track.on {
-            background: var(--color-forest);
-            border-color: color-mix(in srgb, var(--color-forest) 40%, transparent);
+            background: var(--color-primary);
+            border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
           }
   
           .track.on .thumb {

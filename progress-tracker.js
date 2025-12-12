@@ -60,7 +60,7 @@ class AthleteProgressTracker extends HTMLElement {
           .fill {
             height: 100%;
             width: 0%;
-            background: var(--color-forest);
+            background: var(--color-primary);
             border-radius: inherit;
             transition: width 150ms ease-out;
           }
